@@ -37,11 +37,11 @@ $password_hash = password_hash($password, PASSWORD_BCRYPT);
 if($stmt->execute([$login, $password_hash])){
 
     http_response_code(200);
-    echo json_encode(array("message" => "Authentification r&eacute;ussi."));
+    echo json_encode(array("message" => "Authentification reussi."));
 }
 else{
     http_response_code(400);
 
-    echo json_encode(array("message" => "Impossible de créer l'utilisateur."));
+    echo json_encode(array("message" => "Impossible de creer l'utilisateur."));
 }
 ?>
