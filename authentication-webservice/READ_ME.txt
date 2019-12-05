@@ -1,0 +1,1 @@
+Composer require firebase/php-jwt
