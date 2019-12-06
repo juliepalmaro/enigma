@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SocketService } from './services/socket.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'client';
+
+  constructor() {
+    SocketService.initSocket();
+    const socket = SocketService.onEvent('test');
+    socket.subscribe(data => {
+      console.log(data);
+    })
+  }
 }

@@ -11,6 +11,6 @@ export class AppGateway {
   }
 
   public sendEventToClient(str: string, data: any) {
-    this.server.client().emit(str, data);
+    this.server.clients().emit(str, data);
   }
 }
