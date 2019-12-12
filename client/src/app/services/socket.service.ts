@@ -22,4 +22,8 @@ export class SocketService {
             })
         })
     }
+
+    public static emit(str: string, data: any) {
+        this.socket.emit(str, data);
+    }
 }

@@ -35,7 +35,14 @@ export class AppComponent {
     const socketAlgo = SocketService.onEvent('algo');
     socketAlgo.subscribe(data => {
       console.log(data);
+      console.log(this.test(data.algo));
       this.algo = data.algo;
     })
+
+    SocketService.emit('test', { test: 'bonjour' });
+  }
+
+  test(algo: string) {
+    return eval(algo);
   }
 }

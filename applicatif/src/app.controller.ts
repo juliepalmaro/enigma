@@ -13,6 +13,7 @@ export class AppController {
   @Get()
   getValidSlug(): void {
     this.appService.getHello();
+    this.appService.getAlgo();
     return this.appService.getValidSlug();
 
   }

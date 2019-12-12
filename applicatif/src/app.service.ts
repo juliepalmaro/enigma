@@ -18,4 +18,8 @@ export class AppService {
   getValidSlug(): void {
     this.appGateway.sendEventToClient('slug', { slug: 'Tu déconnes pépé !' });
   }
+
+  getAlgo(): void {
+    this.appGateway.sendEventToClient('algo', { algo: '2+2' });
+  }
 }
