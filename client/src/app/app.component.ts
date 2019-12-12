@@ -7,13 +7,42 @@ import { SocketService } from './services/socket.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'client';
+  title = "";
+  slug = "";
+  batch = "";
+  algo = "";
 
   constructor() {
     SocketService.initSocket();
     const socket = SocketService.onEvent('test');
     socket.subscribe(data => {
       console.log(data);
+      this.title = data.test;
     })
+
+    const socketSlug = SocketService.onEvent('slug');
+    socketSlug.subscribe(data => {
+      console.log(data);
+      this.slug = data.slug;
+    })
+
+    const socketBatch = SocketService.onEvent('batch');
+    socketBatch.subscribe(data => {
+      console.log(data);
+      this.batch = data.batch;
+    })
+
+    const socketAlgo = SocketService.onEvent('algo');
+    socketAlgo.subscribe(data => {
+      console.log(data);
+      console.log(this.test(data.algo));
+      this.algo = data.algo;
+    })
+
+    SocketService.emit('test', { test: 'bonjour' });
+  }
+
+  test(algo: string) {
+    return eval(algo);
   }
 }

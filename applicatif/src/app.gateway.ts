@@ -5,12 +5,15 @@ import { Socket, Server } from 'socket.io';
 export class AppGateway {
   @WebSocketServer() server: Server;
 
-  @SubscribeMessage('slug')
-  handleMessage(client: Socket, payload: string): string {
-    return 'Tu déconnes pépé';
+  // communication client -> serveur 
+  @SubscribeMessage('test')
+  handleMessage(client: Socket, data: string) {
+    console.log(data);
   }
-
+  // communication serveur -> client
   public sendEventToClient(str: string, data: any) {
     this.server.clients().emit(str, data);
   }
+
+
 }
