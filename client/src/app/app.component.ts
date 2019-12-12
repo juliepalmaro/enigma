@@ -39,7 +39,8 @@ export class AppComponent {
       this.algo = data.algo;
     })
 
-    SocketService.emit('test', { test: 'bonjour' });
+    SocketService.emit('found', { success: 'jai trouvé!! ' });
+    SocketService.emit('lost', { failed: 'jai perdu' });
   }
 
   test(algo: string) {
