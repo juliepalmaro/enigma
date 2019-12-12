@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SocketService } from './services/socket.service';
+import { NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
