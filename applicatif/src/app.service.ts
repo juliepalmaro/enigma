@@ -14,4 +14,8 @@ export class AppService {
     this.appGateway.sendEventToClient('test', { test: 'hello' });
     return 'Hello World!';
   }
+
+  getValidSlug(): void {
+    this.appGateway.sendEventToClient('slug', { slug: 'Tu déconnes pépé !' });
+  }
 }

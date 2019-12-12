@@ -5,9 +5,9 @@ import { Socket, Server } from 'socket.io';
 export class AppGateway {
   @WebSocketServer() server: Server;
 
-  @SubscribeMessage('slug')
+  @SubscribeMessage('test')
   handleMessage(client: Socket, payload: string): string {
-    return 'Tu déconnes pépé';
+    return 'test';
   }
 
   public sendEventToClient(str: string, data: any) {
