@@ -27,5 +27,6 @@ export class AppService {
 
   getAlgo(): void {
     // Renvoie de l'algo pour décoder le message
+    this.appGateway.sendEventToClient('algo', { algo: '2+2' });
   }
 }
