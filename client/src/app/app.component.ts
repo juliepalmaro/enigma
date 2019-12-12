@@ -46,4 +46,12 @@ export class AppComponent {
   test(algo: string) {
     return eval(algo);
   }
+
+  onFormSubmit(userform: NgForm) {
+    console.log(userform);
+  }
+
+  resetUserForm(userform: NgForm) {
+    userform.resetForm();
+  }
 }
