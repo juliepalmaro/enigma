@@ -19,7 +19,14 @@ export class AppService {
     this.appGateway.sendEventToClient('slug', { slug: 'Tu déconnes pépé !' });
   }
 
+  getBatch(): void {
+    // Récupération du message chiffré
+
+    // Récupération de clé de début et la clé de fin
+  }
+
   getAlgo(): void {
+    // Renvoie de l'algo pour décoder le message
     this.appGateway.sendEventToClient('algo', { algo: '2+2' });
   }
 }

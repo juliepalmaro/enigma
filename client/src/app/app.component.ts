@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SocketService } from './services/socket.service';
+import { NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -45,5 +46,13 @@ export class AppComponent {
 
   test(algo: string) {
     return eval(algo);
+  }
+
+  onFormSubmit(userform: NgForm) {
+    console.log(userform);
+  }
+
+  resetUserForm(userform: NgForm) {
+    userform.resetForm();
   }
 }

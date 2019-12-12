@@ -4,7 +4,7 @@ class DatabaseService{
 
     //Déclaration des infos de ma bdd
     private $db_host = "localhost";
-    private $db_name = "php-jwt";
+    private $db_name = "enigma";
     private $db_user = "root";
     private $db_password = "";
     private $dbb;
