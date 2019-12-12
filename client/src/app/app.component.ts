@@ -14,6 +14,23 @@ export class AppComponent {
     const socket = SocketService.onEvent('test');
     socket.subscribe(data => {
       console.log(data);
+
+    })
+
+    const socketSlug = SocketService.onEvent('slug');
+    socketSlug.subscribe(data => {
+      console.log(data);
+      var slug = data;
+    })
+
+    const socketBatch = SocketService.onEvent('batch');
+    socketBatch.subscribe(data => {
+      console.log(data);
+    })
+
+    const socketAlgo = SocketService.onEvent('algo');
+    socketAlgo.subscribe(data => {
+      console.log(data);
     })
   }
 }
