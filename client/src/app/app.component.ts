@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { SocketService } from './services/socket.service';
 import { NgForm } from '@angular/forms';
 
+import axios from "axios";
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,6 +17,10 @@ export class AppComponent {
   messageBatch = "";
   keyDebut = "";
   keyFin = "";
+
+  username: string;
+  password: string;
+  private information: string[];
 
   constructor() {
     SocketService.initSocket();
@@ -56,13 +62,13 @@ export class AppComponent {
 
 
     })
-    //message que le client envoie au serveur pour lui indiquer qu'il a réussi à déchiffrer le message
+    // message que le client envoie au serveur pour lui indiquer qu'il a réussi à déchiffrer le message
     SocketService.emit('found', { success: "j'ai trouvé!! " });
 
-    //message que le client envoie au serveur pour lui indiquer qu'il n'a pas réussi à déchiffrer le message avec le batch fourni
+    // message que le client envoie au serveur pour lui indiquer qu'il n'a pas réussi à déchiffrer le message avec le batch fourni
     SocketService.emit('lost', { failed: "je n'ai pas trouvé..." });
 
-    //message que le client envoie au serveur pour lui transmettre son token.
+    // message que le client envoie au serveur pour lui transmettre son token.
     SocketService.emit('jwt', { jwt: "" });
 
   }
@@ -80,10 +86,28 @@ export class AppComponent {
   }
 
   onFormSubmit(userform: NgForm) {
-    console.log(userform);
+
+    axios({
+      method: 'get',
+      url: 'http://127.0.0.1:8080/api/login.php',
+      data: {
+        login : this.username,
+        password: this.password
+      }
+    })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
+
+
   resetUserForm(userform: NgForm) {
-    userform.resetForm();
+    console.log(this.username);
+    console.log(this.password);
   }
+
 }
