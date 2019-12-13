@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { SocketService } from './services/socket.service';
-import { NgForm} from '@angular/forms';
+import { NgForm } from '@angular/forms';
+
+import axios from "axios";
 
 @Component({
   selector: 'app-root',
@@ -12,6 +14,13 @@ export class AppComponent {
   slug = "";
   batch = "";
   algo = "";
+  messageBatch = "";
+  keyDebut = "";
+  keyFin = "";
+
+  username: string;
+  password: string;
+  errors: false;
 
   constructor() {
     SocketService.initSocket();
@@ -29,30 +38,74 @@ export class AppComponent {
 
     const socketBatch = SocketService.onEvent('batch');
     socketBatch.subscribe(data => {
-      console.log(data);
-      this.batch = data.batch;
+      //console.log("batch", data);
+      //console.log("batch", data);
+
+      this.messageBatch = data.message;
+      console.log("message", data.message);
+
+
+      this.keyDebut = data.begin;
+      console.log("keydebut", data.begin);
+
+      this.keyFin = data.end;
+      console.log("keyfin", data.end);
+
     })
 
     const socketAlgo = SocketService.onEvent('algo');
     socketAlgo.subscribe(data => {
-      console.log(data);
-      console.log(this.test(data.algo));
       this.algo = data.algo;
-    })
+      // console.log(this.launchAlgo(data.algo, this.messageBatch, this.keyDebut, this.keyFin, this.slug));
 
-    SocketService.emit('found', { success: 'jai trouvé!! ' });
-    SocketService.emit('lost', { failed: 'jai perdu' });
+
+
+
+    })
+    // message que le client envoie au serveur pour lui indiquer qu'il a réussi à déchiffrer le message
+    SocketService.emit('found', { success: "j'ai trouvé!! " });
+
+    // message que le client envoie au serveur pour lui indiquer qu'il n'a pas réussi à déchiffrer le message avec le batch fourni
+    SocketService.emit('lost', { failed: "je n'ai pas trouvé..." });
+
+    // message que le client envoie au serveur pour lui transmettre son token.
+    SocketService.emit('jwt', { jwt: "" });
+
   }
 
-  test(algo: string) {
-    return eval(algo);
+  launchAlgo(algo: string, message: string, begin: string, end: string, slug: string) {
+    var algorithme = eval(algo);
+    var retourAlgo = algorithme(message, begin, end, slug);
+    if (retourAlgo == '-1') {
+      SocketService.emit('lost', { failed: "je n'ai pas trouvé..." });
+    }
+    else {
+      SocketService.emit('found', { success: "j'ai trouvé!! " });
+    }
+    return;
   }
 
   onFormSubmit(userform: NgForm) {
-    console.log(userform);
+
+    axios.post('http://127.0.0.1:8080/api/login.php',
+      {
+        login: this.username,
+        password: this.password
+      })
+      .then(function (response) {
+      console.log(response);
+      this.errors = false;
+    })
+      .catch(function (error) {
+        console.log(error);
+        this.errors = true;
+      });
   }
 
+
   resetUserForm(userform: NgForm) {
-    userform.resetForm();
+    console.log(this.username);
+    console.log(this.password);
   }
+
 }

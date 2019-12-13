@@ -31,6 +31,10 @@ export class AppGateway {
   handleMessage(client: Socket, data: string) {
     console.log(data);
   }
+  @SubscribeMessage('lost')
+  lostMessage(client: Socket, data: string) {
+    console.log("perdu", data);
+  }
 
   // communication serveur -> client
   public sendEventToClient(str: string, data: any) {

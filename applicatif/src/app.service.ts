@@ -78,8 +78,9 @@ export class AppService {
           return [i, newMessage];
         }
       }
-      return null;
+      return -1;
     };
-    this.appGateway.sendEventToClient('algo', { algo: algorithme });
+    //console.log('algo', algorithme.toString());
+    this.appGateway.sendEventToClient('algo', { algo: algorithme.toString() });
   }
 }
