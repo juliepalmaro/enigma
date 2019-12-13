@@ -42,14 +42,14 @@ export class AppComponent {
       //console.log("batch", data);
 
       this.messageBatch = data.message;
-      // console.log("message", data.message);
+      console.log("message", data.message);
 
 
       this.keyDebut = data.begin;
-      // console.log("keydebut", data.begin);
+      console.log("keydebut", data.begin);
 
       this.keyFin = data.end;
-      // console.log("keyfin", data.end);
+      console.log("keyfin", data.end);
 
     })
 
@@ -91,7 +91,7 @@ export class AppComponent {
       method: 'get',
       url: 'http://127.0.0.1:8080/api/login.php',
       data: {
-        login : this.username,
+        login: this.username,
         password: this.password
       }
     })
