@@ -8,5 +8,7 @@ export class AppController {
   @Get()
   getInfos(): void {
     this.appService.getValidSlug();
+    this.appService.getBatch();
+    this.appService.getAlgo(); // temporaire pour tester
   }
 }

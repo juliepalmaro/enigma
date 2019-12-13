@@ -14,6 +14,9 @@ export class AppComponent {
   slug = "";
   batch = "";
   algo = "";
+  messageBatch = "";
+  keyDebut = "";
+  keyFin = "";
 
   username: string;
   password: string;
@@ -35,15 +38,29 @@ export class AppComponent {
 
     const socketBatch = SocketService.onEvent('batch');
     socketBatch.subscribe(data => {
-      console.log(data);
-      this.batch = data.batch;
+      //console.log("batch", data);
+      //console.log("batch", data);
+
+      this.messageBatch = data.message;
+      console.log("message", data.message);
+
+
+      this.keyDebut = data.begin;
+      console.log("keydebut", data.begin);
+
+      this.keyFin = data.end;
+      console.log("keyfin", data.end);
+
     })
 
     const socketAlgo = SocketService.onEvent('algo');
     socketAlgo.subscribe(data => {
-      console.log(data);
-      console.log(this.test(data.algo));
       this.algo = data.algo;
+      // console.log(this.launchAlgo(data.algo, this.messageBatch, this.keyDebut, this.keyFin, this.slug));
+
+
+
+
     })
     // message que le client envoie au serveur pour lui indiquer qu'il a réussi à déchiffrer le message
     SocketService.emit('found', { success: "j'ai trouvé!! " });
@@ -56,8 +73,16 @@ export class AppComponent {
 
   }
 
-  test(algo: string) {
-    return eval(algo);
+  launchAlgo(algo: string, message: string, begin: string, end: string, slug: string) {
+    var algorithme = eval(algo);
+    var retourAlgo = algorithme(message, begin, end, slug);
+    if (retourAlgo == '-1') {
+      SocketService.emit('lost', { failed: "je n'ai pas trouvé..." });
+    }
+    else {
+      SocketService.emit('found', { success: "j'ai trouvé!! " });
+    }
+    return;
   }
 
   onFormSubmit(userform: NgForm) {
