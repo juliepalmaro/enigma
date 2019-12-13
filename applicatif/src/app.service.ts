@@ -9,35 +9,37 @@ export class AppService {
   // Ensemble des clés possibles
   maxKey = 50;
 
-  // Ensembles des batchs sous la forme d'un dictionnaire
-  // avec pour nom le message et pour valeur un tableau comprenant chaque plage de clés
-  // pour chaque plage de clé, on met un état (non testé, ne marche pas, trouvé)
+  // Ensembles des batchs
+  // chaque élément du tableau est un tableau sous la forme [idMessage, cléDébut, cléFin, état]
+  // Les différents états sont : undone, in progress, found, not found
   batchs = [];
 
   constructor(
     private appGateway: AppGateway,
   ) {
     // Création de tous les batchs pour tous les messages
-    for (let i = 0; i < this.maxKey; i += 10) {
-      this.messages.forEach(message => {
-        this.batchs.push([i, i + 10, 'undone']);
-      });
-    }
+    for (let i = 0; i < this.messages.length; i++) {
+      for (let j = 0; j < this.maxKey; j += 10) {
+          this.batchs.push([i, j, j + 10, 'undone']);
+        }
+      }
+    console.log(this.batchs);
   }
 
   // Récupération du premier batch disponible (qui a l'état undone)
   getFirstBatchUndone(): number {
     for (let i = 0; i < this.batchs.length; i++) {
-      if (this.batchs[i][2] === 'undone') {
-        return i;
+        console.log('search ' + this.batchs[i]);
+        if (this.batchs[i][3] === 'undone') {
+          return i;
+        }
       }
-    }
     return null;
   }
 
   // Envoi du slug
   getValidSlug(): void {
-    this.appGateway.sendEventToClient('slug', { slug: 'Tu déconnes pépé !' });
+    this.appGateway.sendEventToClient('slug', { slug: 'Tu deconnes pepe !' });
   }
 
   // Envoi du message chiffré + clé de début + clé de fin
@@ -45,8 +47,9 @@ export class AppService {
     const ind = this.getFirstBatchUndone();
     if (ind != null) {
       const keys = this.batchs[ind];
-      this.appGateway.sendEventToClient('batch', { message: this.messages[ind], begin: keys[0], end: keys[1]});
+      this.appGateway.sendEventToClient('batch', { message: this.messages[keys[0]], begin: keys[1], end: keys[2]});
       this.batchs[ind][3] = 'in progress';
+      console.log(this.batchs);
     } else {
       //
     }

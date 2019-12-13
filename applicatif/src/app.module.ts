@@ -9,7 +9,7 @@ import { AppGateway } from './app.gateway';
     AppController,
   ],
   providers: [
-    AppService,
+    // AppService,
     AppGateway,
   ],
 })
