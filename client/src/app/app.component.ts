@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SocketService } from './services/socket.service';
-import { NgForm} from '@angular/forms';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -39,9 +39,15 @@ export class AppComponent {
       console.log(this.test(data.algo));
       this.algo = data.algo;
     })
+    //message que le client envoie au serveur pour lui indiquer qu'il a réussi à déchiffrer le message
+    SocketService.emit('found', { success: "j'ai trouvé!! " });
 
-    SocketService.emit('found', { success: 'jai trouvé!! ' });
-    SocketService.emit('lost', { failed: 'jai perdu' });
+    //message que le client envoie au serveur pour lui indiquer qu'il n'a pas réussi à déchiffrer le message avec le batch fourni
+    SocketService.emit('lost', { failed: "je n'ai pas trouvé..." });
+
+    //message que le client envoie au serveur pour lui transmettre son token.
+    SocketService.emit('jwt', { jwt: "" });
+
   }
 
   test(algo: string) {
