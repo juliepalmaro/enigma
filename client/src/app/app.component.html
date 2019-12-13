@@ -27,7 +27,7 @@
             <div class="d-flex justify-content-center form_container">
                 <form #userform='ngForm' (ngSubmit)="onFormSubmit(userform)">
                     <div class="input-group mt-5">
-                      <div [(ngModel)]="error" *ngIf="error == true" class="alert alert-danger" role="alert">
+                      <div *ngIf="error == true" class="alert alert-danger" role="alert">
                         Mauvais username ou password
                       </div>
                     </div>

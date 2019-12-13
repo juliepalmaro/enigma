@@ -17,10 +17,11 @@ export class AppComponent {
   messageBatch = "";
   keyDebut = "";
   keyFin = "";
+  jwt = "";
 
   username: string;
   password: string;
-  errors: false;
+  error: boolean;
 
   constructor() {
     SocketService.initSocket();
@@ -86,7 +87,7 @@ export class AppComponent {
   }
 
   onFormSubmit(userform: NgForm) {
-
+    this.error = true;
     axios.post('http://127.0.0.1:8080/api/login.php',
       {
         login: this.username,
@@ -94,11 +95,9 @@ export class AppComponent {
       })
       .then(function (response) {
       console.log(response);
-      this.errors = false;
     })
       .catch(function (error) {
         console.log(error);
-        this.errors = true;
       });
   }
 
