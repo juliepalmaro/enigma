@@ -25,6 +25,7 @@ export class AppService {
     }
   }
 
+  // Récupération du premier batch disponible (qui a l'état undone)
   getFirstBatchUndone(): number {
     for (let i = 0; i < this.batchs.length; i++) {
       if (this.batchs[i][2] === 'undone') {
@@ -34,17 +35,13 @@ export class AppService {
     return null;
   }
 
-  getHello(): string {
-    this.appGateway.sendEventToClient('test', { test: 'hello' });
-    return 'Hello World!';
-  }
-
+  // Envoi du slug
   getValidSlug(): void {
     this.appGateway.sendEventToClient('slug', { slug: 'Tu déconnes pépé !' });
   }
 
+  // Envoi du message chiffré + clé de début + clé de fin
   getBatch(): void {
-    // Récupération du message chiffré + clé de début + clé de fin
     const ind = this.getFirstBatchUndone();
     if (ind != null) {
       const keys = this.batchs[ind];
@@ -55,9 +52,9 @@ export class AppService {
     }
   }
 
+  // Envoi l'algo pour décoder le message
+  // L'algo retourne la clé de début si le message est décodé et -1 sinon
   getAlgo(): void {
-    // Renvoie de l'algo pour décoder le message
-    // L'algo renvoie la clé de début si le message est décodé et -1 sinon
     const algorithme = (message, begin, end, slug) => {
       const regex = new RegExp(slug, 'i');
       for (let i = begin; i <= end; i++) {
