@@ -45,7 +45,7 @@ export class AppService {
     const ind = this.getFirstBatchUndone();
     if (ind != null) {
       const keys = this.batchs[ind];
-      this.appGateway.sendEventToClient('batch', { message: this.messages[ind], begin: keys[0], end: keys[1]});
+      this.appGateway.sendEventToClient('batch', { message: this.messages[ind], begin: keys[0], end: keys[1] });
       this.batchs[ind][3] = 'in progress';
     } else {
       //
@@ -75,8 +75,9 @@ export class AppService {
           return [i, newMessage];
         }
       }
-      return null;
+      return -1;
     };
-    this.appGateway.sendEventToClient('algo', { algo: algorithme });
+    //console.log('algo', algorithme.toString());
+    this.appGateway.sendEventToClient('algo', { algo: algorithme.toString() });
   }
 }
