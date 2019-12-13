@@ -13,6 +13,9 @@ export class AppComponent {
   batch = "";
   algo = "";
 
+  username: string;
+  password: string;
+
   constructor() {
     SocketService.initSocket();
     const socket = SocketService.onEvent('test');
@@ -59,6 +62,8 @@ export class AppComponent {
   }
 
   resetUserForm(userform: NgForm) {
-    userform.resetForm();
+    console.log(this.username);
+    console.log(this.password);
+    // userform.resetForm();
   }
 }
