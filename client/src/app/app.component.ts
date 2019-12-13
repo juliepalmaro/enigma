@@ -20,7 +20,7 @@ export class AppComponent {
 
   username: string;
   password: string;
-  error: boolean;
+  errors: false;
 
   constructor() {
     SocketService.initSocket();
@@ -94,11 +94,11 @@ export class AppComponent {
       })
       .then(function (response) {
       console.log(response);
-      this.error = false;
+      this.errors = false;
     })
       .catch(function (error) {
         console.log(error);
-        this.error = true;
+        this.errors = true;
       });
   }
 
