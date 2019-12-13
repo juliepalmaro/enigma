@@ -17,7 +17,7 @@ export class AppComponent {
 
   username: string;
   password: string;
-  private information: string[];
+  error: boolean;
 
   constructor() {
     SocketService.initSocket();
@@ -62,22 +62,20 @@ export class AppComponent {
 
   onFormSubmit(userform: NgForm) {
 
-    axios({
-      method: 'get',
-      url: 'http://127.0.0.1:8080/api/login.php',
-      data: {
-        login : this.username,
+    axios.post('http://127.0.0.1:8080/api/login.php',
+      {
+        login: this.username,
         password: this.password
-      }
-    })
-      .then(function (response) {
-        console.log(response);
       })
+      .then(function (response) {
+      console.log(response);
+      this.error = false;
+    })
       .catch(function (error) {
         console.log(error);
+        this.error = true;
       });
   }
-
 
 
   resetUserForm(userform: NgForm) {

@@ -26,6 +26,11 @@
             </div>
             <div class="d-flex justify-content-center form_container">
                 <form #userform='ngForm' (ngSubmit)="onFormSubmit(userform)">
+                    <div class="input-group mt-5">
+                      <div *ngIf="error" class="alert alert-danger" role="alert">
+                        Mauvais username ou password
+                      </div>
+                    </div>
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
