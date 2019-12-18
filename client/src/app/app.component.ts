@@ -17,6 +17,7 @@ export class AppComponent {
   messageBatch = "";
   keyDebut = "";
   keyFin = "";
+  jwt = "";
 
   username: string;
   password: string;
@@ -69,7 +70,8 @@ export class AppComponent {
     SocketService.emit('lost', { failed: "je n'ai pas trouvé..." });
 
     // message que le client envoie au serveur pour lui transmettre son token.
-    SocketService.emit('jwt', { jwt: "" });
+
+    SocketService.emit('jwt', { jwt: this.jwt });
 
   }
 
@@ -93,9 +95,11 @@ export class AppComponent {
         password: this.password
       })
       .then(function (response) {
-      console.log(response);
-      this.errors = false;
-    })
+        console.log(response);
+        // this.jwt = response.data.jwt;
+        // console.log("jwt", this.jwt)
+        this.errors = false;
+      })
       .catch(function (error) {
         console.log(error);
         this.errors = true;
