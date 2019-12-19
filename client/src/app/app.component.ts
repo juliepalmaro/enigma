@@ -70,7 +70,8 @@ export class AppComponent {
     SocketService.emit('lost', { failed: "je n'ai pas trouvé..." });
 
     // message que le client envoie au serveur pour lui transmettre son token.
-    SocketService.emit('jwt', { jwt: "" });
+
+    SocketService.emit('jwt', { jwt: this.jwt });
 
   }
 
@@ -94,8 +95,8 @@ export class AppComponent {
         password: this.password
       })
       .then(function (response) {
-      console.log(response);
-    })
+        console.log(response);
+      })
       .catch(function (error) {
       console.log(error);
       });
