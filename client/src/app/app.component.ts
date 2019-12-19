@@ -33,8 +33,6 @@ export class AppComponent {
 
     const socketBatch = SocketService.onEvent('batch');
     socketBatch.subscribe(data => {
-
-
       this.messageBatch = data.message;
       console.log("message", data.message);
 
@@ -69,12 +67,11 @@ export class AppComponent {
   launchAlgo(algo: string, message: string, begin: string, end: string, slug: string) {
     var algorithme = eval(algo);
     var retourAlgo = algorithme(message, begin, end, slug);
-
     if (retourAlgo == '-1') {
       SocketService.emit('lost', { failed: "je n'ai pas trouvé..." });
     }
     else {
-      SocketService.emit('found', { success: "j'ai trouvé!! " });
+      SocketService.emit('win', { success: "j'ai trouvé!! " });
     }
     return;
   }
