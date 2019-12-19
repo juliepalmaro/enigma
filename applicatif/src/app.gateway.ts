@@ -20,9 +20,9 @@ export class AppGateway {
     // Création de tous les batchs pour tous les messages
     for (let i = 0; i < this.messages.length; i++) {
       for (let j = 0; j < this.maxKey; j += 10) {
-          this.batchs.push([i, j, j + 10, 'undone']);
-        }
+        this.batchs.push([i, j, j + 10, 'undone']);
       }
+    }
     console.log(this.batchs);
   }
 
@@ -51,17 +51,17 @@ export class AppGateway {
 
 
   // SERVICES
-   // Récupération du premier batch disponible (qui a l'état undone)
+  // Récupération du premier batch disponible (qui a l'état undone)
   getFirstBatchUndone(): number {
     for (let i = 0; i < this.batchs.length; i++) {
-        console.log('search ' + this.batchs[i]);
-        if (this.batchs[i][3] === 'undone') {
-          return i;
-        }
+      console.log('search ' + this.batchs[i]);
+      if (this.batchs[i][3] === 'undone') {
+        return i;
       }
+    }
     return null;
   }
-  
+
   // Envoi du slug
   getValidSlug(): void {
     this.sendEventToClient('slug', { slug: 'Tu deconnes pepe' });
@@ -90,9 +90,9 @@ export class AppGateway {
           return [i, newMessage];
         }
       }
-      return null;
+      return -1;
     };
-    this.sendEventToClient('algo', { algo: algorithme });
+    this.sendEventToClient('algo', { algo: algorithme.toString() });
   }
 
   // Envoi du message chiffré + clé de début + clé de fin
@@ -100,7 +100,7 @@ export class AppGateway {
     const ind = this.getFirstBatchUndone();
     if (ind != null) {
       const keys = this.batchs[ind];
-      this.sendEventToClient('batch', { message: this.messages[keys[0]], begin: keys[1], end: keys[2]});
+      this.sendEventToClient('batch', { message: this.messages[keys[0]], begin: keys[1], end: keys[2] });
       this.batchs[ind][3] = 'in progress';
       console.log(this.batchs);
     } else {
