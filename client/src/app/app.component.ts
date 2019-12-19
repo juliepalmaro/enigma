@@ -21,7 +21,6 @@ export class AppComponent {
 
   username: string;
   password: string;
-  error: boolean;
 
   constructor() {
     SocketService.initSocket();
@@ -81,7 +80,8 @@ export class AppComponent {
   }
 
   onFormSubmit(userform: NgForm) {
-    this.error = true;
+    console.log(this.username);
+
     axios.post('http://127.0.0.1:8080/api/login.php',
       {
         login: this.username,
