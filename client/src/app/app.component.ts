@@ -21,27 +21,18 @@ export class AppComponent {
 
   username: string;
   password: string;
-  error: boolean;
 
   constructor() {
     SocketService.initSocket();
-    const socket = SocketService.onEvent('test');
-    socket.subscribe(data => {
-      console.log(data);
-      this.title = data.test;
-    })
+
 
     const socketSlug = SocketService.onEvent('slug');
     socketSlug.subscribe(data => {
-      console.log(data);
       this.slug = data.slug;
     })
 
     const socketBatch = SocketService.onEvent('batch');
     socketBatch.subscribe(data => {
-      //console.log("batch", data);
-      //console.log("batch", data);
-
       this.messageBatch = data.message;
       console.log("message", data.message);
 
@@ -57,19 +48,17 @@ export class AppComponent {
     const socketAlgo = SocketService.onEvent('algo');
     socketAlgo.subscribe(data => {
       this.algo = data.algo;
-      // console.log(this.launchAlgo(data.algo, this.messageBatch, this.keyDebut, this.keyFin, this.slug));
-
-
-
+      this.launchAlgo(data.algo, this.messageBatch, this.keyDebut, this.keyFin, this.slug)
+      //console.log(this.launchAlgo(data.algo, this.messageBatch, this.keyDebut, this.keyFin, this.slug));
 
     })
-    // message que le client envoie au serveur pour lui indiquer qu'il a réussi à déchiffrer le message
-    SocketService.emit('found', { success: "j'ai trouvé!! " });
+    // // message que le client envoie au serveur pour lui indiquer qu'il a réussi à déchiffrer le message
+    // SocketService.emit('found', { success: "j'ai trouvé!! " });
 
-    // message que le client envoie au serveur pour lui indiquer qu'il n'a pas réussi à déchiffrer le message avec le batch fourni
-    SocketService.emit('lost', { failed: "je n'ai pas trouvé..." });
+    // // message que le client envoie au serveur pour lui indiquer qu'il n'a pas réussi à déchiffrer le message avec le batch fourni
+    // SocketService.emit('lost', { failed: "je n'ai pas trouvé..." });
 
-    // message que le client envoie au serveur pour lui transmettre son token.
+    // // message que le client envoie au serveur pour lui transmettre son token.
 
     SocketService.emit('jwt', { jwt: this.jwt });
 
@@ -82,13 +71,14 @@ export class AppComponent {
       SocketService.emit('lost', { failed: "je n'ai pas trouvé..." });
     }
     else {
-      SocketService.emit('found', { success: "j'ai trouvé!! " });
+      SocketService.emit('win', { success: "j'ai trouvé!! " });
     }
     return;
   }
 
   onFormSubmit(userform: NgForm) {
-    this.error = true;
+    console.log(this.username);
+
     axios.post('http://127.0.0.1:8080/api/login.php',
       {
         login: this.username,
@@ -98,7 +88,7 @@ export class AppComponent {
         console.log(response);
       })
       .catch(function (error) {
-      console.log(error);
+        console.log(error);
       });
   }
 

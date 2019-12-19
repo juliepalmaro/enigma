@@ -24,7 +24,7 @@ export class AppGateway {
       for (let j = 1; j < this.maxKey; j += 10) {
           this.batchs.push([i, j, j + 10, 'undone']);
         }
-      }
+    }
     console.log(this.batchs);
   }
 
@@ -84,6 +84,7 @@ export class AppGateway {
     this.getAlgo();
   }
 
+
   // FONCTIONS
    // Récupération du premier batch disponible (qui a l'état undone)
   getFirstBatchUndone(): number {
@@ -91,7 +92,7 @@ export class AppGateway {
         if (this.batchs[i][3] === 'undone') {
           return i;
         }
-      }
+    }
     return null;
   }
 
@@ -173,7 +174,7 @@ export class AppGateway {
     const ind = this.getFirstBatchUndone();
     if (ind != null) {
       const keys = this.batchs[ind];
-      this.sendEventToClient('batch', { message: this.messages[keys[0]], begin: keys[1], end: keys[2]});
+      this.sendEventToClient('batch', { message: this.messages[keys[0]], begin: keys[1], end: keys[2] });
       this.batchs[ind][3] = 'in progress';
     } else {
       //
