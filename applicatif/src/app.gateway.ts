@@ -6,7 +6,7 @@ import { AppController } from './app.controller';
 export class AppGateway {
   @WebSocketServer() server: Server;
   // Ensemble des messages à décrypter
-  messages = ['uv efdpooft qfqf, uftu', 'whvw, wx ghfrqqhv shsh', 'fg pqoazzqe bqbq, fqef'];
+  messages = ['uv efdpooft qfqf, uftu', 'qr abzlkkbp mbmb qbpq', 'qr abzlkkbp mbmb qr klrp xp mxp cxfq x jxkdbo'];
 
   // Ensemble des clés possibles
   maxKey = 50;
@@ -25,7 +25,6 @@ export class AppGateway {
           this.batchs.push([i, j, j + 10, 'undone']);
         }
     }
-    console.log(this.batchs);
   }
 
   // communication client -> serveur
@@ -45,7 +44,6 @@ export class AppGateway {
     // if ('tu deconnes pepe' in data.messageDecrypt) {
       console.log('gagné', data);
       this.updateStateOfBatch(data.message, data.begin, data.end, 'found');
-      console.log(this.batchs);
 
       // Supprimer le messages de la liste et des batchs
       this.deleteMessage(data.message);
@@ -100,7 +98,7 @@ export class AppGateway {
         this.batchs[i][3] = state;
         find = true;
       }
-      i += i;
+      i += 1;
     }
   }
 
@@ -145,10 +143,18 @@ export class AppGateway {
           const ascii = car.charCodeAt(0);
           if (ascii >= 'A'.charCodeAt(0) && ascii <= 'Z'.charCodeAt(0)) {
             const calcul = (ascii - i - 'A'.charCodeAt(0)) % 26;
-            car = String.fromCharCode(calcul + 'A'.charCodeAt(0));
+            if (calcul > 0) {
+              car = String.fromCharCode(calcul + 'A'.charCodeAt(0));
+            } else {
+              car = String.fromCharCode('Z'.charCodeAt(0) + calcul);
+            }
           } else if (ascii >= 'a'.charCodeAt(0) && ascii <= 'z'.charCodeAt(0)) {
             const calcul = (ascii - i - 'a'.charCodeAt(0)) % 26;
-            car = String.fromCharCode(calcul + 'a'.charCodeAt(0));
+            if (calcul > 0) {
+              car = String.fromCharCode(calcul + 'a'.charCodeAt(0));
+            } else {
+              car = String.fromCharCode('z'.charCodeAt(0) + calcul);
+            }
           }
           newMessage += car;
         });
@@ -164,7 +170,6 @@ export class AppGateway {
 
   // Envoi du message chiffré + clé de début + clé de fin
   getBatch(): void {
-    console.log('batch client connecté ' + this.clientId);
     const ind = this.getFirstBatchUndone();
     if (ind != null) {
       const keys = this.batchs[ind];

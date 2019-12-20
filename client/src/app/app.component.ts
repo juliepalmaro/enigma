@@ -62,10 +62,10 @@ export class AppComponent {
   launchAlgo(algo: string, message: string, begin: string, end: string, slug: string) {
     const algorithme = eval(algo);
     const retourAlgo = algorithme(message, begin, end, slug);
-    if (retourAlgo === '-1') {
-      SocketService.emit('lost', { failed: 'je n\'ai pas trouvé...' });
+    if (retourAlgo === -1) {
+      SocketService.emit('lost', { message, begin, end, failed: 'je n\'ai pas trouvé...' });
     } else {
-      SocketService.emit('win', { success: 'j\'ai trouvé !! ' });
+      SocketService.emit('win', { messageDecrypt: retourAlgo, message, begin, end, success: 'j\'ai trouvé !! ' });
     }
     return;
   }
