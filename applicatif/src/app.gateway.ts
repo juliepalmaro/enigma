@@ -29,11 +29,6 @@ export class AppGateway {
   }
 
   // communication client -> serveur
-  @SubscribeMessage('test')
-  handleMessage(client: Socket, data: string) {
-    console.log(data);
-  }
-
   @SubscribeMessage('lost')
   lostMessage(client: Socket, data: any) {
     console.log('perdu', data);
@@ -50,6 +45,7 @@ export class AppGateway {
     // if ('tu deconnes pepe' in data.messageDecrypt) {
       console.log('gagné', data);
       this.updateStateOfBatch(data.message, data.begin, data.end, 'found');
+      console.log(this.batchs);
 
       // Supprimer le messages de la liste et des batchs
       this.deleteMessage(data.message);
@@ -65,14 +61,12 @@ export class AppGateway {
   }
 
   // communication serveur -> client
-  public sendEventToClient(str: string, data: any) {
-    this.server.to(this.clientId).emit(str, data);
-  }
+  // public sendEventToClient(str: string, data: any) {
+  //   this.server.to(this.clientId).emit(str, data);
+  // }
 
-  public sendEventToClients(str: string, data: any) {
+  public sendEventToClient(str: string, data: any) {
     this.server.clients().emit(str, data);
-    // envoi à un seul client
-    //this.server.to(this.clientId).emit(str, data);
   }
 
   // Connexion d'un client
@@ -80,8 +74,8 @@ export class AppGateway {
     console.log('client connecté ' + client.id);
     this.clientId = client.id;
     this.getValidSlug();
-    this.getBatch();
     this.getAlgo();
+    this.getBatch();
   }
 
 
@@ -141,7 +135,7 @@ export class AppGateway {
   // Envoi l'algo pour décoder le message
   // L'algo retourne la clé de début si le message est décodé et -1 sinon
   getAlgo(): void {
-    console.log('algo client connecté ' + this.clientId);
+    // console.log('algo client connecté ' + this.clientId);
     const algorithme = (message, begin, end, slug) => {
       const regex = new RegExp(slug, 'i');
       for (let i = begin; i <= end; i++) {
@@ -158,7 +152,7 @@ export class AppGateway {
           }
           newMessage += car;
         });
-        console.log('new message', newMessage);
+        // console.log('new message', newMessage);
         if (newMessage.search(regex) !== -1) {
           return [i, newMessage];
         }
@@ -170,7 +164,7 @@ export class AppGateway {
 
   // Envoi du message chiffré + clé de début + clé de fin
   getBatch(): void {
-    // console.log('batch client connecté ' + this.clientId);
+    console.log('batch client connecté ' + this.clientId);
     const ind = this.getFirstBatchUndone();
     if (ind != null) {
       const keys = this.batchs[ind];
