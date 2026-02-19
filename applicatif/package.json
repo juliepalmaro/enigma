@@ -22,13 +22,13 @@
   "dependencies": {
     "@nestjs/common": "^6.0.0",
     "@nestjs/core": "^6.0.0",
-    "@nestjs/platform-express": "^6.0.0",
-    "@nestjs/platform-socket.io": "^6.10.5",
+    "@nestjs/platform-express": "^11.1.14",
+    "@nestjs/platform-socket.io": "^11.1.14",
     "@nestjs/websockets": "^6.10.5",
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
     "rxjs": "^6.3.3",
-    "socket.io-client": "^2.3.0"
+    "socket.io-client": "^4.8.3"
   },
   "devDependencies": {
     "@nestjs/testing": "^6.0.0",
@@ -37,8 +37,8 @@
     "@types/node": "^10.12.18",
     "@types/supertest": "^2.0.7",
     "concurrently": "^4.1.0",
-    "jest": "^23.6.0",
-    "nodemon": "^1.18.9",
+    "jest": "^30.2.0",
+    "nodemon": "^3.1.11",
     "prettier": "^1.15.3",
     "supertest": "^3.4.1",
     "ts-jest": "24.0.2",
@@ -46,7 +46,7 @@
     "tsconfig-paths": "3.8.0",
     "tslint": "5.16.0",
     "typescript": "3.4.3",
-    "wait-on": "^3.2.0"
+    "wait-on": "^9.0.4"
   },
   "jest": {
     "moduleFileExtensions": [
